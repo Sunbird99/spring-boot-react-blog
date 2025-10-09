@@ -17,7 +17,7 @@ The platform's basic components have been completed which shows how to do the fo
 4. enter in the terminal: 'docker-compose up'
 5. add and use your PostgreSQL password
 6. run BlogApplication file
-7. run the frontend portion of this project
+7. run the frontend portion of this project: https://github.com/Sunbird99/frontendblog
 
 ## How to tweak this project
 
