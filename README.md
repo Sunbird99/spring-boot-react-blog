@@ -40,3 +40,5 @@ The project is still ongoing currently. Some current issues:
 1. need to manually refresh the website after logging in
 2. implement dark mode
 3. improve validation methods on the frontend
+
+<img width="1920" height="899" alt="blogpict" src="https://github.com/user-attachments/assets/34559449-d11d-4d12-b17d-4e36da1a9fcf" />
