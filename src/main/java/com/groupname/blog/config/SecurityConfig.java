@@ -1,5 +1,6 @@
 package com.groupname.blog.config;
 
+import com.groupname.blog.domain.entities.User;
 import com.groupname.blog.repositories.UserRepository;
 import com.groupname.blog.security.BlogUserDetailsService;
 import com.groupname.blog.security.JwtAuthenticationFilter;
@@ -18,8 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@Configuration
+
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig {
 
     @Bean
@@ -29,7 +31,21 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository){
-        return new BlogUserDetailsService(userRepository);
+
+        BlogUserDetailsService blogUserDetailsService = new BlogUserDetailsService(userRepository);
+
+        String email = "user@test.com";
+        userRepository.findByEmail(email).orElseGet(()-> {
+            User newUser = User.builder()
+                    .name("Test User")
+                    .email(email)
+                    .password(passwordEncoder().encode("password"))
+                    .build();
+            return userRepository.save(newUser);
+        });
+
+        return blogUserDetailsService;
+
     }
 
 
@@ -49,7 +65,8 @@ public class SecurityConfig {
             JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http
             .authorizeHttpRequests(auth-> auth
-                    .requestMatchers(HttpMethod.POST, "/api/v1/auth").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/v1/posts/drafts").authenticated()
                     .requestMatchers(HttpMethod.GET, "/api/v1/posts/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/v1/categories/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/v1/tags/**").permitAll()

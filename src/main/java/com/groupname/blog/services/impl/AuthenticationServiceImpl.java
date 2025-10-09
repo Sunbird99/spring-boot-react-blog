@@ -18,8 +18,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
+
 @RequiredArgsConstructor
+@Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
@@ -27,6 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Value("${jwt.secret}")
     private String secretKey;
+
     private final Long jwtExpiryMs = 86400000L;
 
     @Override
